@@ -2,9 +2,10 @@ import React from 'react';
 import { HashLink } from 'react-router-hash-link';
 import ContactUs from '../components/ContactUs';
 
+
 const HomePage = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 shadow-blue-600 shadow-xl">
       <main className="container mx-auto p-4">
         <section className="text-center mt-8 flex flex-col items-center">
           <h2 className="text-6xl font-bold mb-4">Agencia especializada en Educacion</h2>
@@ -66,8 +67,8 @@ const HomePage = () => {
         <section>
   <ContactUs />
         </section>
-
       </main>
+
     </div>
   );
 };

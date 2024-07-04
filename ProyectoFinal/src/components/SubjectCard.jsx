@@ -1,16 +1,23 @@
+import { MagicMotion } from 'react-magic-motion';
 import React from 'react';
-import SubjectList from './SubjectList';
 
-const SubjectCard = ({ subject }) => {
-  return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
-      <div className="px-6 py-4 ">
-        <div className="font-bold text-xl mb-2 text-black">{subject.name}</div>
-        <p className="text-black/55 font-bold">{subject.level}</p>
-        <p className="text-gray-700 text-base">{subject.description}</p>
+const SubjectCard = ({ subject, onRemove,  }) => (
+  <MagicMotion>
+    <div className="border p-4 mt-5 bg-white rounded shadow-md flex flex-col justify-between gap-y-5">
+      <div>
+        <h2><b>{subject.nombre}</b></h2>
+        <p><b>Horas semanal:</b> {subject.intensidad_horaria}</p>
+        <p><b>Nivel Educativo:</b> {subject.nivel_educativo}</p>
+        <p><b>ID del tutor:</b> {subject.id_tutor}</p>
       </div>
+      <button
+        onClick={() => onRemove(subject)}
+        className="bg-red-500 text-white py-1 px-2 rounded mt-2"
+      >
+        Eliminar
+      </button>
     </div>
-  );
-};
+  </MagicMotion>
+);
 
 export default SubjectCard;

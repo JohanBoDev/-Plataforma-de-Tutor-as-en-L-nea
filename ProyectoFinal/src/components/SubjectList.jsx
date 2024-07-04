@@ -1,7 +1,8 @@
+import { MagicMotion } from "react-magic-motion";
 import React, { useState } from 'react';
 import SubjectCard from './SubjectCard';
 import subjects from '../data/subjects';
-import { MagicMotion } from "react-magic-motion";
+
 
 const SubjectList = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,7 +12,7 @@ const SubjectList = () => {
   );
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-white">
       <MagicMotion>
       <input
         type="text"
