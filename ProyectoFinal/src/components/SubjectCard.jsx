@@ -1,21 +1,26 @@
 import { MagicMotion } from 'react-magic-motion';
 import React from 'react';
 
-const SubjectCard = ({ subject, onRemove,  }) => (
+const SubjectCard = ({ subject, tutorNombre, tutorApellido,id_tutor }) => (
   <MagicMotion>
-    <div className="border p-4 mt-5 bg-white rounded shadow-md flex flex-col justify-between gap-y-5">
-      <div>
-        <h2><b>{subject.nombre}</b></h2>
-        <p><b>Horas semanal:</b> {subject.intensidad_horaria}</p>
-        <p><b>Nivel Educativo:</b> {subject.nivel_educativo}</p>
-        <p><b>ID del tutor:</b> {subject.id_tutor}</p>
+    <div className="bg-white shadow-lg rounded-lg p-6 transform transition duration-300 hover:scale-105 hover:shadow-xl">
+      <h2 className="text-xl font-bold text-blue-600 mb-2">Materia: {subject.nombre}</h2>
+      <p className="text-gray-600 text-lg"><span className="font-medium text-purple-600">ID de la materia:</span> {subject.id}</p>
+      <p className="text-gray-600 text-lg"><span className="font-medium text-green-600">Intensidad Horaria:</span> {subject.intensidad_horaria}</p>
+      <p className="text-gray-600 text-lg"><span className="font-medium text-gray-600">Nivel Educativo:</span> {subject.nivel_educativo}</p>
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Tutores:</h3>
+        {tutorNombre && tutorApellido ? (
+          <p className="text-gray-600 text-lg">
+            {tutorNombre} {tutorApellido}
+          </p>
+         
+        ) : (
+          <p className="text-gray-600 text-lg">No hay tutores asignados.</p>
+        )} <p>
+            <span className="font-medium text-blue-600">ID del tutor:</span> {id_tutor}
+          </p>
       </div>
-      <button
-        onClick={() => onRemove(subject)}
-        className="bg-red-500 text-white py-1 px-2 rounded mt-2"
-      >
-        Eliminar
-      </button>
     </div>
   </MagicMotion>
 );

@@ -1,38 +1,81 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StudentContext } from '../context/StudentContext';
-import ProfileCard from '../components/tutor/ProfileCard';
-import SubjectList from '../components/SubjectList';
-import Schedule from '../components/tutor/Schedule';
+import ProfileStudent from '../components/estudiante/ProfileStudent';
+import MateriasList from '../components/estudiante/MateriasCard';
 import LogoutButton from '../components/LogoutButton';
+import TutorSearch from '../components/TutorSearch';
+import AvailabilitySearch from '../components/tutor/AvailabilitySearch';
+import TutoriaForm from '../components/estudiante/TutoriaForm';
+import TutoriaCardEstudent from '../components/estudiante/TutoriaCardEstudent';
+import axios from 'axios';
 
 const StudentDashboard = () => {
-  const { student, subjects, fetchStudentDetails, fetchStudentSubjects } = useContext(StudentContext);
+  const { student, subjects, fetchStudentSubjects } = useContext(StudentContext);
   const [loading, setLoading] = useState(true);
+  const [tutorias, setTutorias] = useState([]);
 
   useEffect(() => {
     const loadStudentData = async () => {
-      await fetchStudentDetails();
       await fetchStudentSubjects();
       setLoading(false);
     };
 
     loadStudentData();
-  }, [fetchStudentDetails, fetchStudentSubjects]);
+  }, [fetchStudentSubjects]);
+
+  useEffect(() => {
+    if (student && student.id) {
+      fetchTutorias(student.id);
+    }
+  }, [student]);
+
+  const handleTutoriaAdded = () => {
+    fetchStudentSubjects();
+    if (student && student.id) {
+      fetchTutorias(student.id);
+    }
+  };
+
+  const fetchTutorias = async (studentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`https://tuto-back-bn1u.onrender.com/api/tutorias/estudiante/${studentId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setTutorias(response.data.tutorias);
+    } catch (error) {
+      console.error('Error fetching tutorias:', error);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  if (!student) {
+    return <div>No hay datos del estudiante disponibles</div>;
+  }
+
   return (
     <div className="flex flex-col gap-y-5">
-      <ProfileCard
-        name={`${student.student.nombre} ${student.student.apellido}`}
-        degree={student.student.nivel_educativo}
-        number={student.student.telefono}
-        email={student.student.email}
-      />
-      <SubjectList subjects={subjects} />
-      <Schedule schedule={student.schedule} />
+      <div className="flex gap-x-3">
+        <div className="w-1/2">
+          <ProfileStudent
+            name={`${student.nombre} ${student.apellido}`}
+            degree={student.nivel_educativo}
+            number={student.telefono}
+            email={student.email}
+            id={student.id}
+          />
+        </div>
+        <div className="w-1/2">
+          <TutorSearch />
+        </div>
+      </div>
+      <AvailabilitySearch />
+      <MateriasList subjects={subjects} />
+      <TutoriaForm onTutoriaAdded={handleTutoriaAdded} />
+      <TutoriaCardEstudent tutorias={tutorias} studentId={student.id} />
       <LogoutButton />
     </div>
   );

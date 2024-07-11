@@ -1,7 +1,6 @@
 import { MagicMotion } from "react-magic-motion";
 import React, { useState } from 'react';
-import SubjectCard from './SubjectCard';
-import subjects from '../data/subjects';
+
 
 
 const SubjectList = () => {

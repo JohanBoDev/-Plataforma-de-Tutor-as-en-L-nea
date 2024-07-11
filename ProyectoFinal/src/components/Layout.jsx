@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
             ) : (
               <>
                 <Link to="/login" className="">Login</Link>
-                <Link to="/register-tutor" className="">Register</Link>
+                <Link to="/choose-role" className="">Register</Link>
               </>
             )}
           </nav>

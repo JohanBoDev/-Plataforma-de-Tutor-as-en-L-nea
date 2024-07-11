@@ -1,11 +1,11 @@
 import React from 'react';
 
-const ProfileCard = ({ name, degree, number, email, id, rating }) => {
+const ProfileCard = ({ name, degree, number, email, id, rating, profileImage}) => {
   return (
     <div className="bg-white p-5 rounded-lg shadow-md">
       <div className="flex items-center">
         <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" // Reemplaza esto con la URL de la imagen del perfil
+          src={profileImage || "uploads/photo/32/1720584441203_tech 1.webp"}// Reemplaza esto con la URL de la imagen del perfil
           alt="Profile"
           className="w-16 h-16 rounded-full"
         />

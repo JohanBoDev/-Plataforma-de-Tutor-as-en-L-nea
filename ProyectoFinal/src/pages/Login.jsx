@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { TutorContext } from '../context/TutorContext';
+import { StudentContext } from '../context/StudentContext'; // Añadir esto
 
 const Login = () => {
   const { setTutor } = useContext(TutorContext);
+  const { setStudent } = useContext(StudentContext); // Añadir esto
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -39,12 +41,26 @@ const Login = () => {
         persona: userResponse.persona,
       };
 
+      // Añadir esto para los datos del estudiante
+      const studentData = {
+        id: userResponse.persona.id,
+        username: userResponse.username,
+        roles: userResponse.roles,
+        nombre: userResponse.persona.nombre,
+        apellido: userResponse.persona.apellido,
+        email: userResponse.persona.email,
+        telefono: userResponse.persona.telefono,
+        nivel_educativo: userResponse.persona.nivel_educativo,
+        persona: userResponse.persona,
+      };
+
       login(userResponse); // Establecer el usuario en el contexto de autenticación
-      setTutor(tutorData); // Establecer el tutor en el contexto de tutor
 
       if (userResponse.roles.includes('ESTUDIANTE')) {
+        setStudent(studentData); // Establecer el estudiante en el contexto de estudiante
         navigate('/student-dashboard');
       } else if (userResponse.roles.includes('TUTOR')) {
+        setTutor(tutorData); // Establecer el tutor en el contexto de tutor
         navigate('/instructor-dashboard');
       }
     } catch (error) {
@@ -74,6 +90,9 @@ const Login = () => {
       <button onClick={handleLogin} className="px-4 py-2 bg-blue-500 text-white rounded">
         Login
       </button>
+          
+      <p className="mt-5 font-bold">Aun no tienes cuenta?</p> 
+      <a className="bg-black p-3 text-white" href="/choose-role">Registrate</a>
     </div>
   );
 };

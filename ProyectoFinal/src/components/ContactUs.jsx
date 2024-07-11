@@ -1,5 +1,7 @@
 // src/pages/ContactUs.jsx
 import React from 'react';
+import conocimiento from '../assets/conocimiento.webp'
+
 
 const ContactUs = () => {
   return (
@@ -41,9 +43,9 @@ const ContactUs = () => {
           </button>
         </form>
       </div>
-      <div className="lg:w-1/2 flex justify-center lg:justify-end mt-8 lg:mt-0">
+      <div className="lg:w-1/2 flex justify-center  mt-8 lg:mt-0">
         <img
-          src="https://s3-alpha-sig.figma.com/img/7486/9f8d/e2a81dcf0e2a32e81843670de90bde81?Expires=1719792000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=cmmjgFPv0APwVTZsbxQDLtk5FaFBRXMTWk0brLIfHJG2jMynBX8JSZxk3R6YzizSlCcT8VV5EVWsAkzJrGJ65TOc6SS0Wfh48TK2Jb-rpQm2gLblIYmKiqYIkqkKXZIwgT7hrwqlYIgbrNLHu1-SNgIr3Jw~sNx4CIxRJXghATY-lXqajM3XDAi6P~Rnoqheo8Uf~uGsfs-2xAPNkH6Qh9RJs58LoYhHsA7FUkHOoFeKYZT7E8wvNGj0FF6dsS4CE9WKed4T9y4qiFHMj3rcC-uxQrAPvSVcbyjRgxpZVdKwjMO5oyAW0DcXq16imkS47mvJGeXmHbUepROVjinVxA__"
+          src={conocimiento}
           alt="Contact Us"
           className="w-64 h-64 lg:w-96 lg:h-96 object-contain"
         />

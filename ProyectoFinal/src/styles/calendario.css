@@ -1,0 +1,23 @@
+
+  
+  .highlight {
+    background-color: #007bff !important;
+    color: white !important;
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .availability-tile {
+    color: white;
+    border-radius: 5px;
+    padding: 2px;
+  }
+  
+  .availability-tile.regular {
+    background-color: #007bff;
+  }
+  
+  .availability-tile.virtual {
+    background-color: #42bc5e;
+  }
+  

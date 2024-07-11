@@ -6,10 +6,12 @@ import ContactUs from './components/ContactUs';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import RegisterTutor from './pages/RegisterTutor';
+import RegisterStudent from './pages/RegisterStudent';
 import InstructorDashboard from './pages/InstructorDashboard';
 import TutorProvider from './context/TutorContext';
 import StudentProvider from './context/StudentContext';
 import StudentDashboard from './pages/StudentDashboard';
+import ChooseRole from './pages/ChooseRole';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -24,7 +26,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/choose-role" element={<ChooseRole />} />
             <Route path="/register-tutor" element={<RegisterTutor />} />
+            <Route path="/register-student" element={<RegisterStudent />} />
             <Route path="/instructor-dashboard" element={<InstructorDashboard />} />
             <Route path="/student-dashboard" element={<StudentDashboard />} />
           </Routes>

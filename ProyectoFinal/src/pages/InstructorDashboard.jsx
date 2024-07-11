@@ -3,9 +3,12 @@ import { TutorContext } from '../context/TutorContext';
 import ProfileCard from '../components/tutor/ProfileCard';
 import PricingCard from '../components/tutor/PricingCard';
 import SubjectForm from '../components/SubjectForm';
-import Schedule from '../components/tutor/Schedule';
 import LogoutButton from '../components/LogoutButton';
-import SubjectCard from '../components/SubjectCard';
+import SubjectCardTutor from '../components/tutor/SubjectCardTutor';
+import AvailabilityForm from '../components/tutor/AvailabilityForm';
+import Calendario from '../components/Calendario';
+import UploadPhotoPerfil from '../components/tutor/UploadPhotoPerfil';
+import TutorCard from '../components/TutoriaCard';
 import axios from 'axios';
 
 const InstructorDashboard = () => {
@@ -13,10 +16,12 @@ const InstructorDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [tutorData, setTutorData] = useState(null);
   const [materias, setMaterias] = useState([]);
+  const [disponibilidades, setDisponibilidades] = useState([]);
+  const [profileImage, setProfileImage] = useState('');
 
   useEffect(() => {
     if (tutor) {
-      console.log("Tutor data received:", tutor); // Log para verificar datos del tutor
+      console.log("Tutor data received:", tutor);
       setTutorData(tutor.tutor ? tutor.tutor : tutor);
       setLoading(false);
     } else {
@@ -27,28 +32,49 @@ const InstructorDashboard = () => {
   useEffect(() => {
     const fetchMaterias = async () => {
       try {
-        const token = localStorage.getItem('token'); // Obtener el token del localStorage
+        const token = localStorage.getItem('token');
         const response = await axios.get('https://tuto-back-bn1u.onrender.com/api/materias', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log("Materias fetched:", response.data.materias); // Log para verificar materias
-        response.data.materias.forEach(materia => {
-          console.log("Materia ID:", materia.id);
-          console.log("Materia Nombre:", materia.nombre);
-          console.log("Materia Intensidad Horaria:", materia.intensidad_horaria);
-          console.log("Materia Nivel Educativo:", materia.nivel_educativo);
-          console.log("TutoresMaterias:", materia.TutoresMaterias);
-        });
-        setMaterias(response.data.materias);
+        console.log("Materias fetched:", response.data.materias);
+        const filteredMaterias = response.data.materias.filter(
+          (materia) => materia.TutoresMaterias && materia.TutoresMaterias[0] && materia.TutoresMaterias[0].id_tutor === tutorData.id
+        );
+        console.log("Filtered materias:", filteredMaterias);
+        setMaterias(filteredMaterias);
       } catch (error) {
         console.error('Error fetching materias:', error);
       }
     };
 
-    fetchMaterias();
-  }, []);
+    const fetchDisponibilidades = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('https://tuto-back-bn1u.onrender.com/api/tutores', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const tutorInfo = response.data.find(t => t.id === tutorData.id);
+        console.log('API Response:', response.data);
+        console.log('Tutor info:', tutorInfo);
+        if (tutorInfo && tutorInfo.Disponibilidads) {
+          setDisponibilidades(tutorInfo.Disponibilidads);
+        } else {
+          console.log('No disponibilidades found for the tutor');
+        }
+      } catch (error) {
+        console.error('Error fetching disponibilidades:', error);
+      }
+    };
+
+    if (tutorData) {
+      fetchMaterias();
+      fetchDisponibilidades();
+    }
+  }, [tutorData]);
 
   const handleSubjectAdded = (newSubject) => {
     setMaterias((prevMaterias) => [...prevMaterias, newSubject]);
@@ -69,15 +95,34 @@ const InstructorDashboard = () => {
     }
   };
 
-  const schedule = [
-    { date: 'August 10', subject: 'Physics', time: '15:30 - 16:30' },
-    { date: 'August 13', subject: 'Physics', time: '12:30 - 13:30' },
-  ];
+  const handleDisponibilidadAdded = (newDisponibilidad) => {
+    setDisponibilidades((prevDisponibilidads) => [...prevDisponibilidads, newDisponibilidad]);
+    console.log('Disponibilidad agregada:', newDisponibilidad);
+  };
+
+  const handleDisponibilidadRemoved = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`https://tuto-back-bn1u.onrender.com/api/disponibilidades/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setDisponibilidades((prevDisponibilidades) => prevDisponibilidades.filter((d) => d.id !== id));
+    } catch (error) {
+      console.error('Error eliminando disponibilidad:', error);
+    }
+  };
+
+  const handleProfileImageUpload = (url) => {
+    setProfileImage(url.replace(/ /g, "%20"));
+  };
 
   if (loading || !tutorData) {
     return <div>Loading...</div>;
   }
 
+ 
   return (
     <div className="flex flex-col gap-y-5">
       <ProfileCard
@@ -87,7 +132,9 @@ const InstructorDashboard = () => {
         email={tutorData.email || 'Email'}
         id={tutorData.id || 'ID'}
         rating={5}
+        profileImage={profileImage}
       />
+       <UploadPhotoPerfil id_usuario={tutorData.persona.id_usuario} onUploadSuccess={handleProfileImageUpload} />
       <PricingCard
         price="$28.000 por 1 hora de clases"
         duration="Tutor en Física, Física Cuántica, Física Nuclear, Física de Partículas"
@@ -96,10 +143,10 @@ const InstructorDashboard = () => {
       <SubjectForm onSubjectAdded={handleSubjectAdded} />
       {materias.length > 0 && (
         <div className="bg-white p-5 rounded-lg shadow-md mt-5">
-          <h2 className="text-xl font-bold">Materias</h2>
+          <h2 className="text-xl font-bold">Tus Materias</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {materias.map((materia, index) => (
-              <SubjectCard
+              <SubjectCardTutor
                 key={index}
                 subject={{
                   ...materia,
@@ -111,7 +158,33 @@ const InstructorDashboard = () => {
           </ul>
         </div>
       )}
-      <Schedule schedule={schedule} />
+      <AvailabilityForm tutorId={tutorData.id} onDisponibilidadAdded={handleDisponibilidadAdded} />
+      {disponibilidades.length > 0 && (
+        <div className="bg-white p-5 rounded-lg shadow-md mt-5">
+          <h2 className="text-xl font-bold text-center"><span className="text-blue-800 font-bold uppercase">{tutorData.nombre }</span>, aquí están tus disponibilidades</h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {disponibilidades.map((availability, index) => (
+              <li key={index} className="border p-4 mt-5 bg-white rounded shadow-md flex flex-col justify-between gap-y-5">
+                <div>
+                  <p><b>ID:</b> {availability.id}</p>
+                  <p><b>Fecha:</b> {availability.fecha}</p>
+                  <p><b>Hora de Inicio:</b> {availability.hora_inicio}</p>
+                  <p><b>Hora de Fin:</b> {availability.hora_fin}</p>
+                  <p><b>Tipo de Sesión:</b> {availability.tipo_sesion}</p>
+                </div>
+                <button
+                  onClick={() => handleDisponibilidadRemoved(availability.id)}
+                  className="bg-red-500 text-white py-1 px-2 rounded mt-2"
+                >
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <Calendario tutorId={tutorData.id} disponibilidades={disponibilidades} setDisponibilidades={setDisponibilidades} />
+      <TutorCard id_tutor={tutorData.id} />
       <LogoutButton />
     </div>
   );
