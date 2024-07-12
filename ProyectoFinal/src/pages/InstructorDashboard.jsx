@@ -134,7 +134,7 @@ const InstructorDashboard = () => {
         rating={5}
         profileImage={profileImage}
       />
-       <UploadPhotoPerfil id_usuario={tutorData.persona.id_usuario} onUploadSuccess={handleProfileImageUpload} />
+      
       <PricingCard
         price="$28.000 por 1 hora de clases"
         duration="Tutor en Física, Física Cuántica, Física Nuclear, Física de Partículas"
