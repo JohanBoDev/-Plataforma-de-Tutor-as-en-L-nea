@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import { AuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
+import LogoutButton from '../components/LogoutButton'; // Importa el componente LogoutButton
 
 const Layout = ({ children }) => {
-  const { isAuthenticated, user, logout } = useContext(AuthContext); // Usa el contexto
+  const { isAuthenticated, user } = useContext(AuthContext); // Usa el contexto
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const getProfileLink = () => {
@@ -25,15 +26,13 @@ const Layout = ({ children }) => {
       <header className="bg-gray-800">
         <div className="container mx-auto p-4 flex justify-between items-center">
           <h1 className="text-2xl text-white font-bold">TutorLabs</h1>
-          <nav className="hidden  md:flex gap-x-10">
+          <nav className="hidden md:flex gap-x-10">
             <Link to="/" className="text-white">Home</Link>
             <Link to="/about" className="text-white">About</Link>
             {isAuthenticated ? (
               <>
                 <Link to={getProfileLink()} className="text-white">Mi Perfil</Link>
-                <button onClick={logout} className="bg-red-500 text-white px-4 py-2 rounded">
-                  Logout
-                </button>
+                <LogoutButton /> {/* Añadir el botón de cerrar sesión aquí */}
               </>
             ) : (
               <>
@@ -58,9 +57,7 @@ const Layout = ({ children }) => {
               {isAuthenticated ? (
                 <>
                   <Link to={getProfileLink()} className="text-white" onClick={toggleMobileMenu}>Mi Perfil</Link>
-                  <button onClick={() => { logout(); toggleMobileMenu(); }} className="bg-red-500 text-white px-4 py-2 rounded">
-                    Logout
-                  </button>
+                  <LogoutButton onClick={toggleMobileMenu} /> {/* Añadir el botón de cerrar sesión aquí */}
                 </>
               ) : (
                 <>

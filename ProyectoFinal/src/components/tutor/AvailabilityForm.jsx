@@ -51,7 +51,7 @@ const AvailabilityForm = ({ tutorId }) => {
         <div className="mb-4">
           <label className="block text-gray-700">Tipo de Sesión:</label>
           <select value={tipoSesion} onChange={(e) => setTipoSesion(e.target.value)} className="w-full px-3 py-2 border rounded-lg">
-            <option value="Regular">Regular</option>
+            <option value="Presencial">Presencial</option>
             <option value="Virtual">Virtual</option>
           </select>
         </div>

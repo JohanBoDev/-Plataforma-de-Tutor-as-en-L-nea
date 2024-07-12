@@ -14,10 +14,14 @@
   }
   
   .availability-tile.regular {
-    background-color: #007bff;
+    background-color: #ff8000;
   }
   
   .availability-tile.virtual {
     background-color: #42bc5e;
+  }
+
+  .availability-tile.presencial {
+    background-color: #ff0000;
   }
   

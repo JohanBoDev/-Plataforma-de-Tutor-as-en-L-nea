@@ -7,7 +7,6 @@ import LogoutButton from '../components/LogoutButton';
 import SubjectCardTutor from '../components/tutor/SubjectCardTutor';
 import AvailabilityForm from '../components/tutor/AvailabilityForm';
 import Calendario from '../components/Calendario';
-import UploadPhotoPerfil from '../components/tutor/UploadPhotoPerfil';
 import TutorCard from '../components/TutoriaCard';
 import axios from 'axios';
 
@@ -185,7 +184,7 @@ const InstructorDashboard = () => {
       )}
       <Calendario tutorId={tutorData.id} disponibilidades={disponibilidades} setDisponibilidades={setDisponibilidades} />
       <TutorCard id_tutor={tutorData.id} />
-      <LogoutButton />
+      
     </div>
   );
 };

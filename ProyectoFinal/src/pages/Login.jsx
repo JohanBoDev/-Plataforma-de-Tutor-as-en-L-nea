@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
 import { TutorContext } from '../context/TutorContext';
 import { StudentContext } from '../context/StudentContext'; // Añadir esto
+import Cargando from '../assets/cargando.svg'; // Añadir esto
 
 const Login = () => {
   const { setTutor } = useContext(TutorContext);
@@ -13,12 +14,15 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Añadir esto
 
   const handleLogin = async () => {
     if (!username || !password) {
       setError('Nombre de usuario y contraseña son requeridos');
       return;
     }
+
+    setLoading(true); // Añadir esto
 
     try {
       const response = await axios.post('https://tuto-back-bn1u.onrender.com/api/auth/login', {
@@ -66,6 +70,8 @@ const Login = () => {
     } catch (error) {
       console.error('Error en la autenticación:', error);
       setError('Nombre de usuario o contraseña incorrectos');
+    } finally {
+      setLoading(false); // Añadir esto
     }
   };
 
@@ -88,8 +94,9 @@ const Login = () => {
         className="mb-4 px-4 py-2 border rounded"
       />
       <button onClick={handleLogin} className="px-4 py-2 bg-blue-500 text-white rounded">
-        Login
+        {loading ? 'Cargando...' : 'Login'} {/* Modificar esto */}
       </button>
+      {loading && <div className="mt-4"> <img src={Cargando} alt="Loading" /></div>} {/* Añadir esto */}
           
       <p className="mt-5 font-bold">Aun no tienes cuenta?</p> 
       <a className="bg-black p-3 text-white" href="/choose-role">Registrate</a>

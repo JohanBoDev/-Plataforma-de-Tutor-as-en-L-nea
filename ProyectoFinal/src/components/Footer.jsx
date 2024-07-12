@@ -12,7 +12,7 @@ const Footer = () => {
             <li className="mb-2"><a href="/about" className="hover:underline text-white hover:text-black hover:bg-white">Sobre Nosotros</a></li>
             <li className="mb-2"><a href="/contact" className="hover:underline text-white hover:text-black hover:bg-white">Contacto</a></li>
             <li className="mb-2"><a href="/login" className="hover:underline text-white hover:text-black hover:bg-white" >Login</a></li>
-            <li><a href="/register" className="hover:underline hover:text-black hover:bg-white text-white">Registrarse</a></li>
+            <li><a href="/choose-role" className="hover:underline hover:text-black hover:bg-white text-white">Registrarse</a></li>
           </ul>
         </div>
 

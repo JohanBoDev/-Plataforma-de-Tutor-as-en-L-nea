@@ -49,7 +49,8 @@ const StudentDashboard = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="h-[80%] w-screen">Bienvenido
+    </div>;
   }
 
   if (!student) {
@@ -58,25 +59,25 @@ const StudentDashboard = () => {
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="flex gap-x-3">
-        <div className="w-1/2">
-          <ProfileStudent
-            name={`${student.nombre} ${student.apellido}`}
-            degree={student.nivel_educativo}
-            number={student.telefono}
-            email={student.email}
-            id={student.id}
-          />
-        </div>
-        <div className="w-1/2">
-          <TutorSearch />
-        </div>
-      </div>
+     <div className="flex flex-col md:flex-row gap-x-3 gap-y-3 md:gap-y-0">
+  <div className="w-full md:w-1/2">
+    <ProfileStudent
+      name={`${student.nombre} ${student.apellido}`}
+      degree={student.nivel_educativo}
+      number={student.telefono}
+      email={student.email}
+      id={student.id}
+    />
+  </div>
+  <div className="w-full md:w-1/2">
+    <TutorSearch />
+  </div>
+</div>
+
       <AvailabilitySearch />
       <MateriasList subjects={subjects} />
       <TutoriaForm onTutoriaAdded={handleTutoriaAdded} />
       <TutoriaCardEstudent tutorias={tutorias} studentId={student.id} />
-      <LogoutButton />
     </div>
   );
 };
