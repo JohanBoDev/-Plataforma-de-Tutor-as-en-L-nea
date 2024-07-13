@@ -34,8 +34,7 @@ const SubjectList = () => {
   );
 
   return (
-    <>
-  <SubjectForm onSubjectAdded={handleSubjectAdded} />
+
     <div className="p-4 bg-white">
       <input
         type="text"
@@ -51,7 +50,6 @@ const SubjectList = () => {
         ))}
       </div>
     </div>
-    </>
   );
 };
 
