@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfileStudent = ({ name, number, email, id}) => {
     return (
-        <div className="bg-white p-5 rounded-lg shadow-md flex flex-col justify-center items-center ">
+        <div className="bg-white p-5 rounded-lg shadow-md h-full flex flex-col justify-center items-center ">
             <div className="flex flex-col gap-y-5">
                 <div className="flex items-center justify-center">
                 <img

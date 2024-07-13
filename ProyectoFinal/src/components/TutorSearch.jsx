@@ -30,7 +30,7 @@ const TutorSearch = () => {
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-md flex flex-col gap-y-5">
+    <div className="bg-white p-5 rounded-lg shadow-md h-full flex flex-col gap-y-5">
       <h2 className="text-xl font-bold mb-4">Buscar Tutor y Sus clases</h2>
       {error && <div className="text-red-500 mb-4">{error}</div>}
       <input

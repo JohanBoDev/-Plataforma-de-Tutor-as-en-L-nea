@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProfileCard = ({ name, degree, number, email, id, rating }) => {
   return (
-    <div className="bg-white p-5 rounded-lg shadow-md w-full max-w-2xl mx-auto mt-6">
+    <div className="bg-white p-5 rounded-lg shadow-md w-full mx-auto mt-6">
     <div className="flex flex-col justify-center items-center md:flex-row md:items-center">
       <img
         src="https://e7.pngegg.com/pngimages/109/994/png-clipart-teacher-student-college-school-education-avatars-child-face.png" // Reemplaza esto con la URL de la imagen del perfil

@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StudentContext } from '../context/StudentContext';
 import ProfileStudent from '../components/estudiante/ProfileStudent';
 import MateriasList from '../components/estudiante/MateriasCard';
-import LogoutButton from '../components/LogoutButton';
 import TutorSearch from '../components/TutorSearch';
 import AvailabilitySearch from '../components/tutor/AvailabilitySearch';
 import TutoriaForm from '../components/estudiante/TutoriaForm';
 import TutoriaCardEstudent from '../components/estudiante/TutoriaCardEstudent';
+import SubjectList from '../components/SubjectList';
 import axios from 'axios';
 
 const StudentDashboard = () => {
@@ -75,7 +75,7 @@ const StudentDashboard = () => {
 </div>
 
       <AvailabilitySearch />
-      <MateriasList subjects={subjects} />
+      <SubjectList />
       <TutoriaForm onTutoriaAdded={handleTutoriaAdded} />
       <TutoriaCardEstudent tutorias={tutorias} studentId={student.id} />
     </div>

@@ -14,7 +14,7 @@ const HomePage = () => {
           <h2 className="text-4xl md:text-6xl font-bold mb-4">Agencia especializada en Educación</h2>
           <p className="mb-8 text-xl md:text-2xl text-[#828282]">Planea tus clases ahora</p>
           <img 
-            className="mt-5 w-full max-w-md" 
+            className="mt-5 md:w-full w-[450px] object-cover" 
             src={educacionHome}
             alt="Education"
           />

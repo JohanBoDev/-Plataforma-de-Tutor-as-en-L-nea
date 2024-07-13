@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AvailabilityForm = ({ tutorId }) => {
+const AvailabilityForm = ({ tutorId, onDisponibilidadAdded }) => { // Cambia 'addAvailability' a 'onDisponibilidadAdded'
   const [fecha, setFecha] = useState('');
   const [horaInicio, setHoraInicio] = useState('');
   const [horaFin, setHoraFin] = useState('');
@@ -26,6 +26,7 @@ const AvailabilityForm = ({ tutorId }) => {
       });
       setSuccess('Disponibilidad agregada exitosamente');
       setError('');
+      onDisponibilidadAdded(response.data.disponibilidad); // Llama a onDisponibilidadAdded con la nueva disponibilidad
     } catch (error) {
       setError('Error al agregar disponibilidad');
       setSuccess('');
@@ -34,7 +35,7 @@ const AvailabilityForm = ({ tutorId }) => {
 
   return (
     <div className="flex justify-center">
-      <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+      <form onSubmit={handleSubmit} className="w-full  bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-center font-bold text-2xl mb-4">Agregar disponibilidad</h2>
         <div className="mb-4">
           <label className="block text-gray-700">Fecha:</label>

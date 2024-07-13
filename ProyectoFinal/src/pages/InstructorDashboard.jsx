@@ -95,7 +95,7 @@ const InstructorDashboard = () => {
   };
 
   const handleDisponibilidadAdded = (newDisponibilidad) => {
-    setDisponibilidades((prevDisponibilidads) => [...prevDisponibilidads, newDisponibilidad]);
+    setDisponibilidades((prevDisponibilidades) => [...prevDisponibilidades, newDisponibilidad]);
     console.log('Disponibilidad agregada:', newDisponibilidad);
   };
 
@@ -113,15 +113,10 @@ const InstructorDashboard = () => {
     }
   };
 
-  const handleProfileImageUpload = (url) => {
-    setProfileImage(url.replace(/ /g, "%20"));
-  };
-
   if (loading || !tutorData) {
     return <div>Loading...</div>;
   }
 
- 
   return (
     <div className="flex flex-col gap-y-5">
       <ProfileCard
@@ -133,7 +128,6 @@ const InstructorDashboard = () => {
         rating={5}
         profileImage={profileImage}
       />
-      
       <PricingCard
         price="$28.000 por 1 hora de clases"
         duration="Tutor en Física, Física Cuántica, Física Nuclear, Física de Partículas"
@@ -184,7 +178,6 @@ const InstructorDashboard = () => {
       )}
       <Calendario tutorId={tutorData.id} disponibilidades={disponibilidades} setDisponibilidades={setDisponibilidades} />
       <TutorCard id_tutor={tutorData.id} />
-      
     </div>
   );
 };
