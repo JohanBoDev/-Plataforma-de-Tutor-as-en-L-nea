@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SubjectCard from './SubjectCard';
+import ProfileCard from '../components/tutor/ProfileCard'; // Asegúrate de importar ProfileCard
+import Modal from '../components/Modal'; // Importa el componente Modal
 import SubjectForm from './SubjectForm';
 
 const SubjectList = () => {
   const [subjects, setSubjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTutor, setSelectedTutor] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Cargar las materias inicialmente
     const fetchSubjects = async () => {
       try {
         const response = await axios.get('https://tuto-back-bn1u.onrender.com/api/materias', {
@@ -16,7 +19,34 @@ const SubjectList = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        setSubjects(response.data.materias);
+
+        const subjectsWithTutorInfo = await Promise.all(
+          response.data.materias.map(async (materia) => {
+            if (materia.TutoresMaterias.length > 0) {
+              const tutorId = materia.TutoresMaterias[0].id_tutor;
+              const tutorResponse = await axios.get(`https://tuto-back-bn1u.onrender.com/api/tutores/${tutorId}`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+              });
+              return {
+                ...materia,
+                tutorNombre: tutorResponse.data.nombre,
+                tutorApellido: tutorResponse.data.apellido,
+                id_tutor: tutorId,
+              };
+            } else {
+              return {
+                ...materia,
+                tutorNombre: 'N/A',
+                tutorApellido: 'N/A',
+                id_tutor: 'N/A',
+              };
+            }
+          })
+        );
+
+        setSubjects(subjectsWithTutorInfo);
       } catch (error) {
         console.error('Error fetching subjects:', error);
       }
@@ -25,8 +55,22 @@ const SubjectList = () => {
     fetchSubjects();
   }, []);
 
+  const handleShowTutorInfo = async (tutorId) => {
+    try {
+      const response = await axios.get(`https://tuto-back-bn1u.onrender.com/api/tutores/${tutorId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setSelectedTutor(response.data);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching tutor info:', error);
+    }
+  };
+
   const handleSubjectAdded = (newSubject) => {
-    setSubjects([...subjects, newSubject]);
+    // Similar logic for fetching tutor details can be applied here if needed
   };
 
   const filteredSubjects = subjects.filter(subject =>
@@ -35,6 +79,18 @@ const SubjectList = () => {
 
   return (
     <div className="p-4 bg-white">
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {selectedTutor && (
+          <ProfileCard
+            name={selectedTutor.nombre}
+            degree={selectedTutor.nivel_educativo}
+            number={selectedTutor.telefono}
+            email={selectedTutor.email}
+            id={selectedTutor.id}
+            rating={5} // Reemplaza esto con la calificación real si la tienes
+          />
+        )}
+      </Modal>
       <input
         type="text"
         placeholder="Buscar materias"
@@ -46,12 +102,11 @@ const SubjectList = () => {
         {filteredSubjects.map(subject => (
           <SubjectCard
             key={subject.id}
-            subject={{
-              ...subject,
-              tutorNombre: subject.tutorNombre || 'N/A',
-              tutorApellido: subject.tutorApellido || 'N/A',
-              id_tutor: subject.id_tutor || 'N/A',
-            }}
+            subject={subject}
+            tutorNombre={subject.tutorNombre}
+            tutorApellido={subject.tutorApellido}
+            id_tutor={subject.id_tutor}
+            onShowTutorInfo={handleShowTutorInfo}
           />
         ))}
       </div>

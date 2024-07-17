@@ -1,7 +1,13 @@
 import React from 'react';
 
 const TutoriaCardEstudent = ({ tutorias, studentId }) => {
-  const filteredTutorias = tutorias.filter(tutoria => tutoria.id_estudiante === studentId);
+  const today = new Date();
+
+  // Filtra las tutorías del estudiante que no han pasado
+  const filteredTutorias = tutorias.filter(tutoria => {
+    const tutoriaDate = new Date(tutoria.Programacion.fecha);
+    return tutoria.id_estudiante === studentId && tutoriaDate >= today;
+  });
 
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
